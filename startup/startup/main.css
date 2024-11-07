@@ -1,0 +1,28 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-width: 375px;
+  }
+header nav ul {
+    font-size: large;
+}
+.nav-link{
+    color: aliceblue;
+}
+nav h1{
+    color: aliceblue;
+}
+main {
+    flex: 1 calc(100vh - 110px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .bg-secondary{
+    --bs-bg-opacity:1;
+    background-color: rgb(234, 235, 225) !important;
+  }
+  footer a{
+    color: aliceblue;
+  }
