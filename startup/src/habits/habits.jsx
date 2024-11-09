@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 export function Habits() {
 
-    const [goals,setGoals] = useState([]);
+    const [goals,setGoals] = useState(["exercise for 30 days","save $1000"]);
     const[newGoal,setNewGoals] = useState("");
 
     function handleInputChange(event){
@@ -39,6 +39,26 @@ export function Habits() {
             Add
         </button>
     </div>
+    <ol>
+        {goals.map((goal,index)=>
+        <li key={index} >
+            <span className='text'>{goal}</span>
+            <button className='delete-button'
+            onClick={()=>deleteGoal(index)}>
+                Delete
+            </button>
+            <button className='move-button'
+            onClick={()=>moveUp(index)}>
+                👆
+            </button>
+            <button className='move-button'
+            onClick={()=>moveDown(index)}>
+                👇
+            </button>
+            
+        </li>
+        )}
+    </ol>
   </div>
     
   );
