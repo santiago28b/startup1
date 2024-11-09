@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './habits.css';
+
 
 export function Habits() {
 
@@ -41,7 +43,7 @@ export function Habits() {
     </div>
     <ol>
         {goals.map((goal,index)=>
-        <li key={index} >
+        <li className='papi' key={index} >
             <span className='text'>{goal}</span>
             <button className='delete-button'
             onClick={()=>deleteGoal(index)}>
