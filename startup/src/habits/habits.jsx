@@ -13,9 +13,18 @@ export function Habits() {
     }
 
     function addGoal(){
-
+        if(newGoal.trim() !== ""){
+            setGoals(g =>[...g,newGoal]);
+            setNewGoals("");
+        }
+       
     }
     function deleteGoal(index){
+        const updatedGoals = goals.filter((_,i) => i !== index);
+        console.log("deleting");
+        setGoals(updatedGoals);
+        console.log(updatedGoals)
+
 
     }
 
