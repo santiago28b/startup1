@@ -57,5 +57,6 @@ For this deliverable I built out the style of my application using CSS and Boost
 - [x] - done - Prerequisite: Notes in your startup Git repository README.md file
 - [x] - done -  React components for habits,login and about done. logic is in habits
 - [x] - done -  Use of hooks to update the state of the table, bright it up or down
-- [x] - done - Correct login and authentication 
+- [x] - done - Correct login and authentication
+- [x] - done - Use of React router during login and when using navbar
 
