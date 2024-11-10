@@ -67,7 +67,7 @@ export default function App() {
           <div className='container-fluid'>
             <span className='text-reset'>Santiago Bolano</span>
             <a className='text-reset' href='https://github.com/santiago28b/startup1/tree/main'>
-              Source
+              Github
             </a>
           </div>
         </footer>
