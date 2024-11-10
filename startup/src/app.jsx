@@ -41,6 +41,9 @@ export default function App() {
             <Route path='/about' element={<About />} />
             <Route path='*' element={<NotFound />} />
         </Routes>
+        <main className="container-fluid bg-secondary text-center">
+            
+        </main>
 
         <footer className='bg-dark text-white-50'>
           <div className='container-fluid'>

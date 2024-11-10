@@ -3,7 +3,7 @@ import React from 'react';
 export function Login() {
   return (
     <main className="container-fluid bg-secondary text-center">
-      <p className="lead">
+      <p className="lead" style={{color:"black"}}>
         Here you will be able to manage and track your progress. This app is here to help you be better with anything you commit to.
       </p>
 

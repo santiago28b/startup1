@@ -1,7 +1,111 @@
-.goal-list{
+.goal-list {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+    color: black;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 3rem; /* Adjusted for smaller screens */
+}
+
+button {
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 8px 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.add-button {
+    background-color: green;
+}
+.delete-button {
+    background-color: red;
+}
+.move-button {
+    background-color: blue;
+}
+
+input[type='text'] {
+    font-size: 1.4rem;
+    padding: 8px;
+    border: 2px solid hsla(0, 0%, 80%, 0.5);
+    border-radius: 5px;
+    color: hsla(0, 0%, 0%, 0.5);
+    width: 100%; /* Full width on mobile */
+    max-width: 400px; /* Limit width on larger screens */
+}
+
+ol {
+    padding: 0;
+}
+
+.papi {
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 3px solid hsla(0, 0%, 85%, 0.75);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Wrap buttons below text on smaller screens */
+}
+
+.text {
+    flex: 1;
+}
+
+.delete-button, .move-button {
+    padding: 6px 10px;
+    font-size: 1.2rem;
+    margin-left: 5px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .papi {
+        font-size: 1.6rem;
+        flex-direction: column; /* Stack text and buttons vertically */
+        text-align: center;
+    }
+    
+    button {
+        font-size: 1.2rem;
+        padding: 6px 12px;
+    }
+
+    input[type='text'] {
+        font-size: 1.2rem;
+        padding: 8px;
+    }
+
+    .delete-button, .move-button {
+        font-size: 1rem;
+        padding: 5px 8px;
+        margin: 5px 0; /* Spacing for stacked layout */
+    }
+}
+
+
+
+
+
+
+/* .goal-list{
     font-family: Arias, sans-serif;
     text-align:center;
     margin-top:100px;
+    color: black;
 }
 h1{
     font-size: 4rem; 
@@ -41,7 +145,7 @@ ol{
     font-weight: bold;
     padding: 15px;
     /* background-color: hsl(0, 0%, 97%); */
-    margin-bottom: 10px;
+    /* margin-bottom: 10px;
     border: 3px solid hsla(0, 0%, 85%,0.75);
     border-radius: 5px;
     display: flex;
@@ -55,4 +159,5 @@ ol{
     font-size: 1.4rem;
     margin-left: 10px;
 
-}
+} */ 
+

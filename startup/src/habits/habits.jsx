@@ -46,7 +46,7 @@ export function Habits() {
         }
     }
 
-  return (<div className='goal-list'>
+  return (<div className='goal-list container-fluid bg-secondary text-center'>
 
     <h1>Current Goals</h1>
     <div>

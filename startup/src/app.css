@@ -50,3 +50,7 @@ footer a {
     display: none;
   }
 }
+.bg-secondary{
+  --bs-bg-opacity:1;
+  background-color: rgb(234, 235, 225) !important;
+}
