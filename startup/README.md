@@ -46,3 +46,16 @@ For this deliverable I built out the style of my application using CSS and Boost
 - [x] - done -  Navigation elements. Links highlight on hover.
 - [x] - done -  Responsive to window resizing. Looks great on iPad, desktop, and iPhone.
 - [x] - done -  Application elements. Buttons are using bootstrap
+
+## CSS React Deliverable
+➡️ information for the `Startup React` deliverable
+
+For this deliverable I built out the style of my application using CSS and Boostrap framework.
+
+- [x] - done - Prerequisite: Simon React deployed to your production environment
+- [x] - done - Prerequisite: A link to your GitHub startup repository prominently displayed on your application's home page
+- [x] - done - Prerequisite: Notes in your startup Git repository README.md file
+- [x] - done -  React components for habits,login and about done. logic is in habits
+- [x] - done -  Use of hooks to update the state of the table, bright it up or down
+- [x] - done - Correct login and authentication 
+
