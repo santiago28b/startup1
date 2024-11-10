@@ -26,3 +26,47 @@ main {
   footer a{
     color: aliceblue;
   }
+
+/* this is the old habits
+  <main className="container-fluid bg-secondary text-center">
+      <h1>Current Goals</h1>
+
+      <table className="table table-dark table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Goal</th>
+            <th scope="col">Progress</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>
+              Exercise for 30 days
+            </td>
+            <td>
+              <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div className="progress-bar" style={{ width: '25%' }}>25%</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+
+      <div>
+        <button type="button" className="btn btn-secondary">Delete Goal</button>
+        <button type="button" className="btn btn-primary">Add Goal</button>
+        <button type="button" className="btn btn-primary">Complete Goal</button>
+      </div>
+
+      <section>
+        <h2>New goals being created</h2>
+        <ul>
+          <li>Guzaboo just created a new goal</li>
+          <li>CyberDragon just created a new goal</li>
+          <li>Santi just created a new goal</li>
+        </ul>
+      </section>
+    </main> */

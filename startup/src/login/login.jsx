@@ -1,24 +1,26 @@
 import React from 'react';
+import { Unauthenticated } from './unauthenticated';
+import { Authenticated } from './authenticated';
+import { AuthState } from './authState';
 
-export function Login() {
+export function Login({ userName, authState, onAuthChange }) {
   return (
-    <main className="container-fluid bg-secondary text-center">
-      <p className="lead" style={{color:"black"}}>
-        Here you will be able to manage and track your progress. This app is here to help you be better with anything you commit to.
-      </p>
-
-      <form method="get" action="habits.html">
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="basic-addon1">User</span>
-          <input className="form-control" type="text" placeholder="JohnDoe28" />
-        </div>
-        <div className="input-group mb-3">
-          <span className="input-group-text">Password🔒</span>
-          <input className="form-control" type="password" placeholder="1234" />
-        </div>
-        <button type="button" className="btn btn-dark">Login</button>
-        <button type="button" className="btn btn-dark">New User</button>
-      </form>
-    </main>
+    <main className='container-fluid bg-secondary text-center'>
+    <div>
+      {authState !== AuthState.Unknown && <h1 style={{color:"black"}} >Welcome to HabitApp</h1>}
+      {authState === AuthState.Authenticated && (
+        <Authenticated userName={userName} onLogout={() => onAuthChange(userName, AuthState.Unauthenticated)} />
+      )}
+      {authState === AuthState.Unauthenticated && (
+        <Unauthenticated
+          userName={userName}
+          onLogin={(loginUserName) => {
+            onAuthChange(loginUserName, AuthState.Authenticated);
+          }}
+        />
+      )}
+    </div>
+  </main>
+   
   );
 }
