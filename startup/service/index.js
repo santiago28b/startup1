@@ -9,6 +9,8 @@ app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 app.use(express.json());
+app.use(express.static('public'));
+
 let users = {};
 let habits = [];
 var apiRouter = express.Router();
