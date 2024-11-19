@@ -22,13 +22,6 @@ export function Habits() {
 
     }
 
-    // function addGoal(){
-    //     if(newGoal.trim() !== ""){
-    //         setGoals(g =>[...g,newGoal]);
-    //         setNewGoals("");
-    //     }   
-    // }
-
     function addGoal() {
         if (newGoal.trim() !== "") {
           fetch('/api/habits', {
@@ -48,13 +41,22 @@ export function Habits() {
       }
 
 
-    function deleteGoal(index){
-        const updatedGoals = goals.filter((_,i) => i !== index);
-        console.log("deleting");
-        setGoals(updatedGoals);
-        console.log(updatedGoals)
+    // function deleteGoal(index){
+    //     const updatedGoals = goals.filter((_,i) => i !== index);
+    //     console.log("deleting");
+    //     setGoals(updatedGoals);
+    //     console.log(updatedGoals)
+    // }
 
-
+    function deleteGoal(id) {
+        fetch(`/api/habits/${id}`, {
+            method: 'DELETE',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setGoals(data); // Update goals with the latest list from the backend
+            })
+            .catch((error) => console.error('Error deleting habit:', error));
     }
 
     function moveUp(index){
@@ -92,10 +94,10 @@ export function Habits() {
     </div>
     <ol>
         {goals.map((goal,index)=>
-        <li className='papi' key={index} >
+        <li className='papi' key={goal.id} >
             <span className='text'>{goal.name}</span>
             <button className='delete-button'
-            onClick={()=>deleteGoal(index)}>
+            onClick={()=>deleteGoal(goal.id)}>
                 Delete
             </button>
             <button className='move-button'

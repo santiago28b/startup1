@@ -13,8 +13,8 @@ app.use(express.static('public'));
 
 let users = {};
 let habits = [
-  { name: 'exercise for 30 days'},
-  { name: 'save $1000'},
+  { id: uuid.v4(),name: 'exercise for 30 days'},
+  { id: uuid.v4(),name: 'save $1000'},
 ];
 
 var apiRouter = express.Router();
@@ -64,15 +64,26 @@ apiRouter.get('/habits', (_req, res) => {
 apiRouter.post('/habits', (req, res) => {
     const { habit } = req.body;
   
-    if (!habit) {
+    if (!habit || !habit.name) {
       return res.status(400).send({ msg: 'Habit is required' });
     }
-  
+    const newHabit = { id: uuid.v4(), name: habit.name };
     // Add the new habit to the habits array
-    habits.push({ id: uuid.v4(), name: habit.name});
-
+    habits.push(newHabit);
     // Respond with the updated habits list
     res.status(201).send(habits);
   });
+
+  apiRouter.delete('/habits/:id', (req, res) => {
+    const { id } = req.params;
+    const habitIndex = habits.findIndex(h => h.id === id);
+
+    if (habitIndex !== -1) {
+        habits.splice(habitIndex, 1);
+        res.status(200).send(habits);
+    } else {
+        res.status(404).send({ msg: 'Habit not found' });
+    }
+});
   
 
