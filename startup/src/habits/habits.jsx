@@ -49,25 +49,6 @@ export function Habits() {
             })
             .catch((error) => console.error('Error deleting habit:', error));
     }
-
-    // function moveUp(index){
-    //     if(index > 0){
-    //         const updatedGoals = [...goals];
-    //         [updatedGoals[index],updatedGoals[index-1]]= 
-    //         [updatedGoals[index-1],updatedGoals[index]]
-    //         setGoals(updatedGoals);
-    //     }
-
-    // }
-    // function moveDown(index){
-    //     if(index < goals.length-1){
-    //         const updatedGoals = [...goals];
-    //         [updatedGoals[index],updatedGoals[index+1]]= 
-    //         [updatedGoals[index+1],updatedGoals[index]]
-    //         setGoals(updatedGoals);
-    //     }
-    // }
-
     function moveHabit(id, direction) {
         fetch('/api/habits/move', {
             method: 'POST',
