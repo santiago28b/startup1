@@ -85,5 +85,26 @@ apiRouter.post('/habits', (req, res) => {
         res.status(404).send({ msg: 'Habit not found' });
     }
 });
+
+apiRouter.post('/habits/move', (req, res) => {
+  const { id, direction } = req.body;
+
+  // Find the index of the habit
+  const index = habits.findIndex(h => h.id === id);
+
+  if (index === -1) {
+      return res.status(404).send({ msg: 'Habit not found' });
+  }
+
+  if (direction === 'up' && index > 0) {
+      // Swap with the previous item
+      [habits[index - 1], habits[index]] = [habits[index], habits[index - 1]];
+  } else if (direction === 'down' && index < habits.length - 1) {
+      // Swap with the next item
+      [habits[index], habits[index + 1]] = [habits[index + 1], habits[index]];
+  }
+
+  res.status(200).send(habits); // Return the updated list
+});
   
 

@@ -39,15 +39,6 @@ export function Habits() {
             .catch((error) => console.error('Error adding habit:', error));
         }
       }
-
-
-    // function deleteGoal(index){
-    //     const updatedGoals = goals.filter((_,i) => i !== index);
-    //     console.log("deleting");
-    //     setGoals(updatedGoals);
-    //     console.log(updatedGoals)
-    // }
-
     function deleteGoal(id) {
         fetch(`/api/habits/${id}`, {
             method: 'DELETE',
@@ -59,22 +50,45 @@ export function Habits() {
             .catch((error) => console.error('Error deleting habit:', error));
     }
 
-    function moveUp(index){
-        if(index > 0){
-            const updatedGoals = [...goals];
-            [updatedGoals[index],updatedGoals[index-1]]= 
-            [updatedGoals[index-1],updatedGoals[index]]
-            setGoals(updatedGoals);
-        }
+    // function moveUp(index){
+    //     if(index > 0){
+    //         const updatedGoals = [...goals];
+    //         [updatedGoals[index],updatedGoals[index-1]]= 
+    //         [updatedGoals[index-1],updatedGoals[index]]
+    //         setGoals(updatedGoals);
+    //     }
 
+    // }
+    // function moveDown(index){
+    //     if(index < goals.length-1){
+    //         const updatedGoals = [...goals];
+    //         [updatedGoals[index],updatedGoals[index+1]]= 
+    //         [updatedGoals[index+1],updatedGoals[index]]
+    //         setGoals(updatedGoals);
+    //     }
+    // }
+
+    function moveHabit(id, direction) {
+        fetch('/api/habits/move', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id, direction }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setGoals(data); // Update goals with the latest list
+            })
+            .catch((error) => console.error(`Error moving habit ${direction}:`, error));
     }
-    function moveDown(index){
-        if(index < goals.length-1){
-            const updatedGoals = [...goals];
-            [updatedGoals[index],updatedGoals[index+1]]= 
-            [updatedGoals[index+1],updatedGoals[index]]
-            setGoals(updatedGoals);
-        }
+    
+    function moveUp(id) {
+        moveHabit(id, 'up');
+    }
+    
+    function moveDown(id) {
+        moveHabit(id, 'down');
     }
 
   return (<div className='goal-list container-fluid bg-secondary text-center'>
@@ -101,11 +115,11 @@ export function Habits() {
                 Delete
             </button>
             <button className='move-button'
-            onClick={()=>moveUp(index)}>
+            onClick={()=>moveUp(goal.id)}>
                 👆
             </button>
             <button className='move-button'
-            onClick={()=>moveDown(index)}>
+            onClick={()=>moveDown(goal.id)}>
                 👇
             </button>
             
