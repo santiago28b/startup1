@@ -12,7 +12,11 @@ app.use(express.json());
 app.use(express.static('public'));
 
 let users = {};
-let habits = [];
+let habits = [
+  { name: 'exercise for 30 days'},
+  { name: 'save $1000'},
+];
+
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
@@ -65,8 +69,8 @@ apiRouter.post('/habits', (req, res) => {
     }
   
     // Add the new habit to the habits array
-    habits.push({ id: uuid.v4(), habit });
-  
+    habits.push({ id: uuid.v4(), name: habit.name});
+
     // Respond with the updated habits list
     res.status(201).send(habits);
   });
