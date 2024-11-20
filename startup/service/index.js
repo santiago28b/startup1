@@ -1,6 +1,7 @@
 const express = require('express');
 const uuid = require('uuid');
 const app = express();
+const path = require('path');
 
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
@@ -106,5 +107,7 @@ apiRouter.post('/habits/move', (req, res) => {
 
   res.status(200).send(habits); // Return the updated list
 });
-  
 
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
