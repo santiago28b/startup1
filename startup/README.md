@@ -60,3 +60,19 @@ For this deliverable I built out the style of my application using CSS and Boost
 - [x] - done - Correct login and authentication
 - [x] - done - Use of React router during login and when using navbar
 
+##  Service Deliverable
+➡️ information for the `Startup Service` deliverable
+
+For this deliverable I added backend endpoints that receives habits and stores them in the server and makes api calls to third partys.
+
+- [x] - done - Prerequisite: Simon Service deployed to your production environment
+- [x] - done - Prerequisite: A link to your GitHub startup repository prominently displayed on your application's home page
+- [x] - done - Prerequisite: Notes in your startup Git repository README.md file
+- [x] - done -   Node.js/Express HTTP service
+- [x] - done -  Static middleware for frontend
+- [x] - done - Calls to third party endpoints
+- [x] - done - Backend service endpoints
+- [x] - done - Frontend calls service endpoints using fecth
+- [x] - done - login also uses api calls and is handled in the backend
+
+
