@@ -7,6 +7,8 @@ const client = new MongoClient(url, { tls: true, serverSelectionTimeoutMS: 3000}
 
 const db = client.db('startup');
 const habitsCollection = db.collection('habit');
+const userCollection = db.collection('user');
+
 
 // This will asynchronously test the connection and exit the process if it fails
 (async function testConnection() {
@@ -16,6 +18,24 @@ const habitsCollection = db.collection('habit');
     console.log(`Unable to connect to database with ${url} because ${ex.message}`);
     process.exit(1);
   });
+
+  function getUser(user){
+    return userCollection.findOne({user:user})
+  }
+
+  function getUserByToken(token){
+    return userCollection.findOne({token:token})
+  }
+
+  function createUser(user,password){
+    const newUser = {
+        user: user,
+        password : password,
+    };
+    return userCollection.insertOne(newUser)
+  }
+
+
   
   async function addGoal(habit) {
     return habitsCollection.insertOne(habit);
@@ -32,6 +52,9 @@ const habitsCollection = db.collection('habit');
   module.exports = {
     addGoal,
     deleteHabitById,
-    getHabits
+    getHabits,
+    getUser,
+    getUserByToken,
+    createUser
   };
   
