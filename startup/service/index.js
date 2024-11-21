@@ -1,3 +1,4 @@
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const uuid = require('uuid');
 const app = express();
@@ -6,12 +7,13 @@ const DB = require('./database.js');
 
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
+app.use(express.json());
+app.use(express.static('public'));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
-app.use(express.json());
-app.use(express.static('public'));
+
 
 let users = {};
 let habits = [
@@ -22,18 +24,31 @@ let habits = [
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-// CreateAuth a new user
-apiRouter.post('/auth/create', async (req, res) => {
-    const user = users[req.body.userName];
-    if (user) {
-      res.status(409).send({ msg: 'Existing user' });
-    } else {
-      const user = { userName: req.body.userName, password: req.body.password, token: uuid.v4() };
-      users[user.userName] = user;
+// CreateAuth a new user without monggo
+// apiRouter.post('/auth/create', async (req, res) => {
+//     const user = users[req.body.userName];
+//     if (user) {
+//       res.status(409).send({ msg: 'Existing user' });
+//     } else {
+//       const user = { userName: req.body.userName, password: req.body.password, token: uuid.v4() };
+//       users[user.userName] = user;
   
-      res.send({ token: user.token });
-    }
-  });
+//       res.send({ token: user.token });
+//     }
+//   });
+
+
+//with mongo
+apiRouter.post('/auth/create',async (req,res)=> {
+  if(await DB.getUser(req.body.user)){
+    res.status(409).send({msg: 'Existing user'});
+  }else{
+    setAuthCookie(res, user.token);
+    const user = await DB.createUser(req.body.user,req.body.password);
+    
+  }
+  
+})
 
   // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
@@ -56,38 +71,6 @@ apiRouter.delete('/auth/logout', (req, res) => {
     }
     res.status(204).end();
   });
-
-//   // GetHabits
-// apiRouter.get('/habits', (_req, res) => {
-//     res.send(habits);
-//   });
-  
-//   // Submit a new habit
-// apiRouter.post('/habits', (req, res) => {
-//     const { habit } = req.body;
-  
-//     if (!habit || !habit.name) {
-//       return res.status(400).send({ msg: 'Habit is required' });
-//     }
-//     const newHabit = { id: uuid.v4(), name: habit.name };
-//     // Add the new habit to the habits array
-//     habits.push(newHabit);
-//     // Respond with the updated habits list
-//     res.status(201).send(habits);
-//   });
-
-//   apiRouter.delete('/habits/:id', (req, res) => {
-//     const { id } = req.params;
-//     const habitIndex = habits.findIndex(h => h.id === id);
-
-//     if (habitIndex !== -1) {
-//         habits.splice(habitIndex, 1);
-//         res.status(200).send(habits);
-//     } else {
-//         res.status(404).send({ msg: 'Habit not found' });
-//     }
-// });
-
 //down you will find mongoDB
 
 // GetHabits
