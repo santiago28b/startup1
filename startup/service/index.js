@@ -2,6 +2,7 @@ const express = require('express');
 const uuid = require('uuid');
 const app = express();
 const path = require('path');
+const DB = require('./database.js');
 
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
@@ -56,36 +57,78 @@ apiRouter.delete('/auth/logout', (req, res) => {
     res.status(204).end();
   });
 
-  // GetHabits
-apiRouter.get('/habits', (_req, res) => {
-    res.send(habits);
-  });
+//   // GetHabits
+// apiRouter.get('/habits', (_req, res) => {
+//     res.send(habits);
+//   });
   
-  // Submit a new habit
-apiRouter.post('/habits', (req, res) => {
-    const { habit } = req.body;
+//   // Submit a new habit
+// apiRouter.post('/habits', (req, res) => {
+//     const { habit } = req.body;
   
-    if (!habit || !habit.name) {
-      return res.status(400).send({ msg: 'Habit is required' });
-    }
-    const newHabit = { id: uuid.v4(), name: habit.name };
-    // Add the new habit to the habits array
-    habits.push(newHabit);
-    // Respond with the updated habits list
-    res.status(201).send(habits);
-  });
+//     if (!habit || !habit.name) {
+//       return res.status(400).send({ msg: 'Habit is required' });
+//     }
+//     const newHabit = { id: uuid.v4(), name: habit.name };
+//     // Add the new habit to the habits array
+//     habits.push(newHabit);
+//     // Respond with the updated habits list
+//     res.status(201).send(habits);
+//   });
 
-  apiRouter.delete('/habits/:id', (req, res) => {
-    const { id } = req.params;
-    const habitIndex = habits.findIndex(h => h.id === id);
+//   apiRouter.delete('/habits/:id', (req, res) => {
+//     const { id } = req.params;
+//     const habitIndex = habits.findIndex(h => h.id === id);
 
-    if (habitIndex !== -1) {
-        habits.splice(habitIndex, 1);
-        res.status(200).send(habits);
-    } else {
-        res.status(404).send({ msg: 'Habit not found' });
-    }
+//     if (habitIndex !== -1) {
+//         habits.splice(habitIndex, 1);
+//         res.status(200).send(habits);
+//     } else {
+//         res.status(404).send({ msg: 'Habit not found' });
+//     }
+// });
+
+//down you will find mongoDB
+
+// GetHabits
+apiRouter.get('/habits', async (_req, res) => {
+  try {
+    const habits = await DB.getHabits(); // Fetch habits from the database
+    res.send(habits); // Send them to the frontend
+  } catch (error) {
+    console.error('Error fetching habits:', error.message);
+    res.status(500).send({ msg: 'Failed to fetch habits' });
+  }
 });
+
+// Submit a new habit
+apiRouter.post('/habits', async (req, res) => {
+  const { habit } = req.body;
+
+  if (!habit || !habit.name) {
+    return res.status(400).send({ msg: 'Habit is required' });
+  }
+
+  const newHabit = { id: uuid.v4(), name: habit.name };
+  await DB.addGoal(newHabit);
+  const updatedHabits = await DB.getHabits();
+  res.status(201).send(updatedHabits);
+});
+
+// Delete a habit
+apiRouter.delete('/habits/:id', async (req, res) => {
+  const { id } = req.params;
+  const result = await DB.deleteHabitById(id);
+
+  if (result.deletedCount > 0) {
+    const updatedHabits = await DB.getHabits();
+    res.status(200).send(updatedHabits);
+  } else {
+    res.status(404).send({ msg: 'Habit not found' });
+  }
+});
+
+//this down here is still onmemory storage.
 
 apiRouter.post('/habits/move', (req, res) => {
   const { id, direction } = req.body;
