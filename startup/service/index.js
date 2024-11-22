@@ -5,10 +5,14 @@ const app = express();
 const path = require('path');
 const DB = require('./database.js');
 
+const authCookieName = 'token';
+
+
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
 app.use(express.json());
 app.use(express.static('public'));
+app.use(cookieParser());
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
