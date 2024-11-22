@@ -48,9 +48,12 @@ apiRouter.post('/auth/create',async (req,res)=> {
   if(await DB.getUser(req.body.user)){
     res.status(409).send({msg: 'Existing user'});
   }else{
-    setAuthCookie(res, user.token);
-    const user = await DB.createUser(req.body.user,req.body.password);
     
+    const user = await DB.createUser(req.body.user,req.body.password);
+    setAuthCookie(res, user.token);
+    res.send({
+      id: user._id,
+    });
   }
   
 })
@@ -176,3 +179,20 @@ apiRouter.post('/habits/move', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
+app.use(function (err, req, res, next) {
+  res.status(500).send({ type: err.name, message: err.message });
+});
+
+// Return the application's default page if the path is unknown
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
+});
+
+// setAuthCookie in the HTTP response
+function setAuthCookie(res, authToken) {
+  res.cookie(authCookieName, authToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
+}
