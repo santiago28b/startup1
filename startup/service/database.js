@@ -31,7 +31,9 @@ const userCollection = db.collection('user');
     const newUser = {
         user: user,
         password : password,
+        token: uuid.v4(),
     };
+    console.log('Creating user:', newUser); // Log the user data being passed to MongoDB
     return userCollection.insertOne(newUser)
   }
 

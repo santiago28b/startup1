@@ -43,20 +43,49 @@ app.use(`/api`, apiRouter);
 //   });
 
 
-//with mongo
-apiRouter.post('/auth/create',async (req,res)=> {
-  if(await DB.getUser(req.body.user)){
-    res.status(409).send({msg: 'Existing user'});
-  }else{
-    
-    const user = await DB.createUser(req.body.user,req.body.password);
-    setAuthCookie(res, user.token);
-    res.send({
-      id: user._id,
-    });
-  }
+//with mongo before console
+// apiRouter.post('/auth/create',async (req,res)=> {
+//   if(await DB.getUser(req.body.user)){
+//     res.status(409).send({msg: 'Existing user'});
+//   }else{
+//     const user = await DB.createUser(req.body.user,req.body.password);
+//     setAuthCookie(res, user.token);
+//     res.send({
+//       id: user._id,
+//     });
+//   }
   
-})
+// })
+
+//this is chat:
+apiRouter.post('/auth/create', async (req, res) => {
+  try {
+    const userName = req.body.user || req.body.userName; // Handle `userName` or `user`
+    console.log('Request body:', req.body);
+
+    if (!userName || !req.body.password) {
+      return res.status(400).send({ msg: 'User and password are required' });
+    }
+
+    const existingUser = await DB.getUser(req.body.userName);
+    if (existingUser) {
+      return res.status(409).send({ msg: 'Existing user' });
+    }
+
+    const token = uuid.v4(); // Generate a unique token
+    const user = { user: req.body.userName, password: req.body.password, token: token };
+
+    await DB.createUser(userName, user.password); // Save the user in the database
+    console.log('User created successfully:', user);
+
+    setAuthCookie(res, token); // Set the authentication cookie
+    res.send({ id: user._id });
+  } catch (error) {
+    console.error('Error in /auth/create:', error.message);
+    res.status(500).send({ msg: 'Internal server error' });
+  }
+});
+
 
   // GetAuth login an existing user without mongo
 // apiRouter.post('/auth/login', async (req, res) => {

@@ -9,7 +9,10 @@ export function Habits() {
     const[newGoal,setNewGoals] = useState("");
 
     React.useEffect(() => {
-        fetch('/api/habits')
+        fetch('/api/habits',{
+            method: 'GET', // just added to see if it works
+            credentials: 'include',
+        })
           .then((response) => response.json())
           .then((data) => {
             setGoals(data);
