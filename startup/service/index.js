@@ -75,11 +75,15 @@ apiRouter.post('/auth/create', async (req, res) => {
     const token = uuid.v4(); // Generate a unique token
     const user = { user: req.body.userName, password: req.body.password, token: token };
 
-    await DB.createUser(userName, user.password); // Save the user in the database
+    const result = await DB.createUser(userName, user.password); // Save the user in the database
     console.log('User created successfully:', user);
 
     setAuthCookie(res, token); // Set the authentication cookie
-    res.send({ id: user._id });
+    res.send({
+      id: result.insertedId, // MongoDB's auto-generated ID
+      msg: 'User created successfully',
+      token: token, // Optional: include the token for client-side use
+    });
   } catch (error) {
     console.error('Error in /auth/create:', error.message);
     res.status(500).send({ msg: 'Internal server error' });
