@@ -105,10 +105,12 @@ apiRouter.post('/auth/create', async (req, res) => {
 //   });
 
 apiRouter.post('/auth/login', async (req,res)=>{
-  const user = await DB.getUser(req.body.user);
+  console.log(req.body.userName)
+  const user = await DB.getUser(req.body.userName);
+  console.log(user);
   if(user){
     if(req.body.password === user.password){
-      sethAuthCookie(res,user.token);
+      setAuthCookie(res,user.token);
       res.send({id: user._id})
       return;
     }
