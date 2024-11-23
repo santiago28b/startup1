@@ -29,35 +29,7 @@ let habits = [
 const apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-// CreateAuth a new user without monggo
-// apiRouter.post('/auth/create', async (req, res) => {
-//     const user = users[req.body.userName];
-//     if (user) {
-//       res.status(409).send({ msg: 'Existing user' });
-//     } else {
-//       const user = { userName: req.body.userName, password: req.body.password, token: uuid.v4() };
-//       users[user.userName] = user;
-  
-//       res.send({ token: user.token });
-//     }
-//   });
-
-
-//with mongo before console
-// apiRouter.post('/auth/create',async (req,res)=> {
-//   if(await DB.getUser(req.body.user)){
-//     res.status(409).send({msg: 'Existing user'});
-//   }else{
-//     const user = await DB.createUser(req.body.user,req.body.password);
-//     setAuthCookie(res, user.token);
-//     res.send({
-//       id: user._id,
-//     });
-//   }
-  
-// })
-
-//this is chat:
+//this is working
 apiRouter.post('/auth/create', async (req, res) => {
   try {
     const userName = req.body.user || req.body.userName; // Handle `userName` or `user`
@@ -90,19 +62,6 @@ apiRouter.post('/auth/create', async (req, res) => {
   }
 });
 
-
-  // GetAuth login an existing user without mongo
-// apiRouter.post('/auth/login', async (req, res) => {
-//     const user = users[req.body.userName];
-//     if (user) {
-//       if (req.body.password === user.password) {
-//         user.token = uuid.v4();
-//         res.send({ token: user.token });
-//         return;
-//       }
-//     }
-//     res.status(401).send({ msg: 'Unauthorized' });
-//   });
 
 apiRouter.post('/auth/login', async (req,res)=>{
   console.log(req.body.userName)
@@ -195,27 +154,40 @@ apiRouter.delete('/habits/:id', async (req, res) => {
   }
 });
 
-//this down here is still onmemory storage.
-
-apiRouter.post('/habits/move', (req, res) => {
+//mongodb moves
+apiRouter.post('/habits/move', async (req, res) => {
   const { id, direction } = req.body;
 
-  // Find the index of the habit
-  const index = habits.findIndex(h => h.id === id);
+  try {
+    // Fetch all habits from MongoDB
+    const habits = await DB.getHabits();
+    
+    // Find the index of the habit
+    const index = habits.findIndex(h => h.id === id);
 
-  if (index === -1) {
+    if (index === -1) {
       return res.status(404).send({ msg: 'Habit not found' });
-  }
+    }
 
-  if (direction === 'up' && index > 0) {
-      // Swap with the previous item
+    // Perform the move operation
+    if (direction === 'up' && index > 0) {
       [habits[index - 1], habits[index]] = [habits[index], habits[index - 1]];
-  } else if (direction === 'down' && index < habits.length - 1) {
-      // Swap with the next item
+    } else if (direction === 'down' && index < habits.length - 1) {
       [habits[index], habits[index + 1]] = [habits[index + 1], habits[index]];
-  }
+    }
 
-  res.status(200).send(habits); // Return the updated list
+    // Save the updated order back to MongoDB
+    await Promise.all(
+      habits.map((habit, i) =>
+        DB.updateHabitOrder(habit.id, i) // Update each habit's order field
+      )
+    );
+
+    res.status(200).send(habits); // Return the updated list
+  } catch (error) {
+    console.error('Error moving habit:', error.message);
+    res.status(500).send({ msg: 'Failed to move habit' });
+  }
 });
 
 app.get('*', (req, res) => {

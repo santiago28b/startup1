@@ -50,7 +50,11 @@ const userCollection = db.collection('user');
   }
   async function getHabits() {
     const habitsCollection = db.collection('habit'); // Ensure this collection matches your MongoDB setup
-    return habitsCollection.find().toArray(); // Fetch all habits
+    return habitsCollection.find().sort({ order: 1 }).toArray(); // Sort by order field
+  }
+
+  async function updateHabitOrder(id,order){
+    return habitsCollection.updateOne({ id: id }, { $set: { order: order } });
   }
   
   
@@ -60,6 +64,7 @@ const userCollection = db.collection('user');
     getHabits,
     getUser,
     getUserByToken,
-    createUser
+    createUser,
+    updateHabitOrder,
   };
   
