@@ -1,5 +1,6 @@
 const cookieParser = require('cookie-parser');
 const express = require('express');
+const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const app = express();
 const path = require('path');
@@ -68,7 +69,7 @@ apiRouter.post('/auth/login', async (req,res)=>{
   const user = await DB.getUser(req.body.userName);
   console.log(user);
   if(user){
-    if(req.body.password === user.password){
+    if(await bcrypt.compare(req.body.password,user.password)){
       setAuthCookie(res,user.token);
       res.send({id: user._id})
       return;

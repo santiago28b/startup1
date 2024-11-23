@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
 const config = require('./dbConfig.json');
+const bcrypt = require('bcrypt');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url, { tls: true, serverSelectionTimeoutMS: 3000});
@@ -30,10 +31,11 @@ const userCollection = db.collection('user');
   return user;
   }
 
-  function createUser(user,password,token){
+  async function createUser(user,password,token){
+    const passwordHash = await bcrypt.hash(password, 10);
     const newUser = {
         user: user,
-        password : password,
+        password : passwordHash,
         token: token
     };
     console.log('Creating user:', newUser); // Log the user data being passed to MongoDB
