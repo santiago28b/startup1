@@ -75,7 +75,7 @@ apiRouter.post('/auth/create', async (req, res) => {
     const token = uuid.v4(); // Generate a unique token
     const user = { user: req.body.userName, password: req.body.password, token: token };
 
-    const result = await DB.createUser(userName, user.password); // Save the user in the database
+    const result = await DB.createUser(userName, user.password,token); // Save the user in the database
     console.log('User created successfully:', user);
 
     setAuthCookie(res, token); // Set the authentication cookie
@@ -138,10 +138,17 @@ apiRouter.use(secureApiRouter);
 
 secureApiRouter.use(async (req, res, next) => {
   const authToken = req.cookies[authCookieName];
+  console.log('Auth token from cookie:', authToken);
+  if (!authToken) {
+    return res.status(401).send({ msg: 'Unauthorized: No token provided' });
+  }
   const user = await DB.getUserByToken(authToken);
+  console.log(authCookieName," " ,authToken)
   if (user) {
+    console.log('User authenticated:', user);
     next();
   } else {
+    console.log('No user found for token:', authToken);
     res.status(401).send({ msg: 'Unauthorized' });
   }
 });

@@ -16,6 +16,7 @@ export function Habits() {
           .then((response) => response.json())
           .then((data) => {
             setGoals(data);
+            console.log('Response status:', response.status); // Log response status
           })
           .catch((error) => console.error('Error fetching habits:', error));
       }, []);

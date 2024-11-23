@@ -23,15 +23,18 @@ const userCollection = db.collection('user');
     return userCollection.findOne({user:user})
   }
 
-  function getUserByToken(token){
-    return userCollection.findOne({token:token})
+  async function getUserByToken(token){
+    console.log('Looking for user with token:', token);
+  const user = await userCollection.findOne({ token: token });
+  console.log('User found:', user);
+  return user;
   }
 
-  function createUser(user,password){
+  function createUser(user,password,token){
     const newUser = {
         user: user,
         password : password,
-        token: uuid.v4(),
+        token: token
     };
     console.log('Creating user:', newUser); // Log the user data being passed to MongoDB
     return userCollection.insertOne(newUser)

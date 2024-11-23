@@ -23,6 +23,7 @@ export function Unauthenticated(props) {
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       },
+      credentials: 'include', // Include cookies in the request
     });
     if (response?.status === 200) {
       localStorage.setItem('userName', userName);
