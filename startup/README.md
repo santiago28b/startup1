@@ -83,7 +83,6 @@ For this deliverable I stored the habits in the database and the login informati
 - [x] - done - Prerequisite: Simon DB/login deployed to your production environment
 - [x] - done - Prerequisite: A link to your GitHub startup repository prominently displayed on your application's home page
 - [x] - done - Prerequisite: Notes in your startup Git repository README.md file
-- [x] - done -   Node.js/Express HTTP service
 - [x] - MongoDB Atlas database created - done!
 - [x] - Stores data in MongoDB - done!
 - [x] - User registration - Creates a new account in the database.
