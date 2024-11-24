@@ -75,4 +75,20 @@ For this deliverable I added backend endpoints that receives habits and stores t
 - [x] - done - Frontend calls service endpoints using fecth
 - [x] - done - login also uses api calls and is handled in the backend
 
+##  DB/Login Deliverable
+➡️ information for the `Startup DB/login` deliverable
+
+For this deliverable I stored the votes in the database and the login information as well
+
+- [x] - done - Prerequisite: Simon DB/login deployed to your production environment
+- [x] - done - Prerequisite: A link to your GitHub startup repository prominently displayed on your application's home page
+- [x] - done - Prerequisite: Notes in your startup Git repository README.md file
+- [x] - done -   Node.js/Express HTTP service
+- [x] - MongoDB Atlas database created - done!
+- [x] - Stores data in MongoDB - done!
+- [x] - User registration - Creates a new account in the database.
+- [x] - existing user - Stores the habits under the same user if the user already exists.
+- [x] - Use MongoDB to store credentials - Stores both user and habits
+- [x] - Bcrypt is used to hash password and protect users.  
+
 
