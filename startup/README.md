@@ -78,7 +78,7 @@ For this deliverable I added backend endpoints that receives habits and stores t
 ##  DB/Login Deliverable
 ➡️ information for the `Startup DB/login` deliverable
 
-For this deliverable I stored the votes in the database and the login information as well
+For this deliverable I stored the habits in the database and the login information as well
 
 - [x] - done - Prerequisite: Simon DB/login deployed to your production environment
 - [x] - done - Prerequisite: A link to your GitHub startup repository prominently displayed on your application's home page
